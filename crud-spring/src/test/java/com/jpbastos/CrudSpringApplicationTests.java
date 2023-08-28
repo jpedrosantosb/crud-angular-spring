@@ -1,4 +1,4 @@
-package com.jpbastos.crudspring;
+package com.jpbastos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
