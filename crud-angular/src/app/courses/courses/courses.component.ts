@@ -14,17 +14,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CoursesComponent implements OnInit {
 
   courses$: Observable <Course[]>;
-  displayedColumns = ['_id', 'name', 'category', 'actions']
-
-  //coursesService: CoursesService;
 
   constructor(
     private coursesService: CoursesService,
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute) {
-    // this.courses = [];
-    //this.coursesService = new CoursesService();
     this.courses$ = this.coursesService.list().pipe(
       catchError(error => {
         this.onError('Erro ao carregar cursos.');
@@ -43,7 +38,7 @@ export class CoursesComponent implements OnInit {
   }
 
   onAdd() {
-    this.router.navigate(['new'], {relativeTo: this.route});
+    //this.router.navigate(['new'], {relativeTo: this.route});
   }
 
 }
