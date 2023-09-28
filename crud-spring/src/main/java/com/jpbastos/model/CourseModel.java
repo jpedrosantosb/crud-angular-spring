@@ -3,6 +3,8 @@ package com.jpbastos.model;
 
 import java.util.Objects;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,6 +22,8 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "cursos")
+@SQLDelete(sql = "UPDATE cursos SET status = 'Inativo' WHERE id = ?")
+@Where(clause = "status = 'Ativo'")
 public class CourseModel {
 
 	@Id
@@ -39,8 +43,13 @@ public class CourseModel {
 	@Column(name = "categoria", length = 10, nullable = false)
 	private String category;
 	
+	@NotNull
+    @Length(max = 10)
+    @Pattern(regexp = "Ativo|Inativo")
+    @Column(length = 10, nullable = false)
+    private String status = "Ativo";
 	
-
+	
 	public CourseModel() {
 		
 	}
