@@ -95,6 +95,15 @@ public class CourseModel {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
+	public String getStatus() {
+	        return status;
+	    }
+	
+	public void setStatus(String string) {
+		this.status = status;
+		
+	}
 	
 	
 	

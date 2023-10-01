@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jpbastos.dto.CourseDTO;
 import com.jpbastos.model.CourseModel;
 import com.jpbastos.service.CourseService;
 
@@ -35,7 +36,7 @@ public class CourseController {
 
 	// @RequestMapping(method = RequestMethod.GET)
 	@GetMapping
-	public @ResponseBody List<CourseModel> list() {
+	public @ResponseBody List<CourseDTO> list() {
 		return courseService.list();
 	}
 
@@ -50,18 +51,18 @@ public class CourseController {
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public CourseModel create(@RequestBody @Valid CourseModel course) {
+	public CourseDTO create(@RequestBody @Valid CourseDTO course) {
 		return courseService.create(course);
 
 	}
 
 	@GetMapping("/{id}")
-	public CourseModel findById(@PathVariable @NotNull @Positive Long id) {
+	public CourseDTO findById(@PathVariable @NotNull @Positive Long id) {
 		return courseService.findById(id);
 	}
 
 	@PutMapping("/{id}")
-	public CourseModel update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseModel course) {
+	public CourseDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseDTO course) {
 		return courseService.update(id, course);
 	}
 
