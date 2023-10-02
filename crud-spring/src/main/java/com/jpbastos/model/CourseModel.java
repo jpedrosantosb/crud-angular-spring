@@ -1,6 +1,5 @@
 package com.jpbastos.model;
 
-
 import java.util.Objects;
 
 import org.hibernate.annotations.SQLDelete;
@@ -8,8 +7,13 @@ import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jpbastos.enums.Category;
+import com.jpbastos.enums.Status;
+import com.jpbastos.enums.converters.CategoryConverter;
+import com.jpbastos.enums.converters.StatusConverter;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +21,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-
 
 @Entity
 @Table(name = "cursos")
@@ -30,28 +32,25 @@ public class CourseModel {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("_id")
 	private Long id;
-	
+
 	@NotBlank
 	@NotNull
-	@Length(min=4, max= 50)
+	@Length(min = 4, max = 50)
 	@Column(name = "nome", length = 100, nullable = false)
 	private String name;
-	
+
 	@NotNull
-	@Length(max=10)
-	@Pattern(regexp = "Back-end|Front-end")
-	@Column(name = "categoria", length = 10, nullable = false)
-	private String category;
-	
+	@Column(length = 10, nullable = false)
+	@Convert(converter = CategoryConverter.class)
+	private Category category;
+
 	@NotNull
-    @Length(max = 10)
-    @Pattern(regexp = "Ativo|Inativo")
-    @Column(length = 10, nullable = false)
-    private String status = "Ativo";
-	
-	
+	@Column(length = 10, nullable = false)
+	@Convert(converter = StatusConverter.class)
+	private Status status = Status.ATIVO;
+
 	public CourseModel() {
-		
+
 	}
 
 	@Override
@@ -88,23 +87,21 @@ public class CourseModel {
 		this.name = name;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
-	public String getStatus() {
-	        return status;
-	    }
-	
-	public void setStatus(String string) {
-		this.status = status;
-		
+	public Status getStatus() {
+		return status;
 	}
-	
-	
-	
+
+	public void setStatus(Status status) {
+		this.status = status;
+
+	}
+
 }
