@@ -1,5 +1,7 @@
 package com.jpbastos.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,6 +28,7 @@ public class LessonModel {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "course_id", nullable = false)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private CourseModel course;
 	
 	public LessonModel() {
