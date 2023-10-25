@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import com.jpbastos.dto.CourseDTO;
 import com.jpbastos.dto.mapper.CourseMapper;
 import com.jpbastos.exception.RecordNotFoundException;
+import com.jpbastos.model.CourseModel;
 import com.jpbastos.repository.CourseRepository;
 
 import jakarta.validation.Valid;
@@ -40,10 +41,14 @@ public class CourseService {
 		return courseMapper.toDTO(courseRepository.save(courseMapper.toEntity(course)));
 	}
 
-	public CourseDTO update(@NotNull @Positive Long id, @Valid CourseDTO course) {
+	public CourseDTO update(@NotNull @Positive Long id, @Valid @NotNull CourseDTO courseDTO) {
 		return courseRepository.findById(id).map(recordFound -> {
-			recordFound.setName(course.name());
-			recordFound.setCategory(courseMapper.convertCategoryValue(course.category()));
+			CourseModel course = courseMapper.toEntity(courseDTO);
+            recordFound.setName(courseDTO.name());
+            recordFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()));
+            // recordFound.setLessons(course.getLessons());
+            recordFound.getLessons().clear();
+            course.getLessons().forEach(recordFound.getLessons()::add);
 			return courseMapper.toDTO(courseRepository.save(recordFound));
 		}).orElseThrow(() -> new RecordNotFoundException(id));
 	}

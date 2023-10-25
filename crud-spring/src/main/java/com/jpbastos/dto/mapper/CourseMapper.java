@@ -9,6 +9,7 @@ import com.jpbastos.dto.CourseDTO;
 import com.jpbastos.dto.LessonDTO;
 import com.jpbastos.enums.Category;
 import com.jpbastos.model.CourseModel;
+import com.jpbastos.model.LessonModel;
 
 @Component
 public class CourseMapper {
@@ -34,6 +35,17 @@ public class CourseMapper {
 		}
 		course.setName(courseDTO.name());
 		course.setCategory(convertCategoryValue(courseDTO.category()));
+		
+		List<LessonModel> lessons = courseDTO.lessons().stream().map(lessonDTO -> {
+            var lesson = new LessonModel();
+            lesson.setId(lessonDTO.id());
+            lesson.setName(lessonDTO.name());
+            lesson.setYoutubeUrl(lessonDTO.youtubeUrl());
+            lesson.setCourse(course);
+            return lesson;
+        }).collect(Collectors.toList());
+        course.setLessons(lessons);
+		
 		return course;
 	}
 	
