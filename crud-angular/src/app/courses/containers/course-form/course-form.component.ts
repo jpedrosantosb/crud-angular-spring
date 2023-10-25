@@ -34,7 +34,7 @@ export class CourseFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       _id: [course._id],
       name: [course.name, [Validators.required,
-      Validators.minLength(5),
+      Validators.minLength(4),
       Validators.maxLength(100)]],
       category: [course.category, [Validators.required]],
       lessons: this.formBuilder.array(this.retrieveLessons(course), Validators.required)
