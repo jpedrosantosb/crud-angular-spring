@@ -23,7 +23,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -52,10 +54,13 @@ public class CourseModel {
 	@Column(length = 10, nullable = false)
 	@Convert(converter = StatusConverter.class)
 	private Status status = Status.ATIVO;
-	
+
+	@NotNull
+	@NotEmpty
+	@Valid
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "course")
-    // @JoinColumn(name = "course_id")
-    private List<LessonModel> lessons = new ArrayList<>();
+	// @JoinColumn(name = "course_id")
+	private List<LessonModel> lessons = new ArrayList<>();
 
 	public CourseModel() {
 
@@ -119,7 +124,5 @@ public class CourseModel {
 	public void setLessons(List<LessonModel> lessons) {
 		this.lessons = lessons;
 	}
-	
-	
 
 }

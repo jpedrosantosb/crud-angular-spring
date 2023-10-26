@@ -1,5 +1,7 @@
 package com.jpbastos.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -10,9 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Data
 @Entity
 public class LessonModel {
 
@@ -20,12 +22,19 @@ public class LessonModel {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotNull
+    @NotBlank
+    @Length(min = 4, max = 100)
 	@Column(length = 100, nullable = false)
 	private String name;
 
+	@NotNull
+    @NotBlank
+    @Length(min = 8, max = 11)
 	@Column(length = 11, nullable = false)
 	private String youtubeUrl;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "course_id", nullable = false)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -75,9 +84,11 @@ public class LessonModel {
 	public void setCourse(CourseModel course) {
 		this.course = course;
 	}
-	
-	
-	
-	
 
+	@Override
+	public String toString() {
+		return "LessonModel [id=" + id + ", name=" + name + ", youtubeUrl=" + youtubeUrl + ", course=" + course + "]";
+	}
+	
+	
 }
